@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import Navbar from './components/Navbar'
+import Footer from './components/Footer'
 import HomePage from './pages/HomePage'
 import AnalyzePage from './pages/AnalyzePage'
 import RoadmapPage from './pages/RoadmapPage'
@@ -11,15 +12,20 @@ import SignupPage from './pages/SignupPage'
 function App() {
   return (
     <BrowserRouter>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/analyze" element={<AnalyzePage />} />
-        <Route path="/roadmap/:id" element={<RoadmapPage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
-      </Routes>
+      <div className="flex min-h-screen flex-col bg-[#0f0f13]">
+        <Navbar />
+        <div className="flex-1">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/analyze" element={<AnalyzePage />} />
+            <Route path="/roadmap/:id" element={<RoadmapPage />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+          </Routes>
+        </div>
+        <Footer />
+      </div>
       <Toaster
         position="top-right"
         toastOptions={{

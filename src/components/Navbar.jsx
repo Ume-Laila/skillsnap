@@ -1,15 +1,42 @@
-import { useState } from 'react'
-import { FiMenu, FiX, FiZap } from 'react-icons/fi'
-import { Link, NavLink } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { FiLogOut, FiMenu, FiX, FiZap } from 'react-icons/fi'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast'
+import { getCurrentUser, logoutUser } from '../lib/auth'
 
-const navLinks = [
-  { to: '/', label: 'Home' },
-  { to: '/analyze', label: 'Analyze' },
-  { to: '/dashboard', label: 'Dashboard' },
-]
+const baseNavLinks = [{ to: '/', label: 'Home' }, { to: '/analyze', label: 'Analyze' }]
 
 function Navbar() {
+  const navigate = useNavigate()
   const [isOpen, setIsOpen] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        await getCurrentUser()
+        setIsLoggedIn(true)
+      } catch {
+        setIsLoggedIn(false)
+      }
+    }
+
+    checkAuth()
+  }, [])
+
+  const navLinks = isLoggedIn ? [...baseNavLinks, { to: '/dashboard', label: 'Dashboard' }] : baseNavLinks
+
+  const handleLogout = async () => {
+    try {
+      await logoutUser()
+      toast.success('Logged out successfully.')
+      setIsLoggedIn(false)
+      setIsOpen(false)
+      navigate(0)
+    } catch (error) {
+      toast.error(error?.message || 'Logout failed.')
+    }
+  }
 
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--color-border)] bg-[rgba(15,15,19,0.78)] backdrop-blur-md">
@@ -40,18 +67,31 @@ function Navbar() {
         </div>
 
         <div className="hidden items-center gap-3 md:flex">
-          <Link
-            to="/login"
-            className="rounded-lg border border-[var(--color-border)] px-4 py-2 text-sm font-medium text-gray-100 transition hover:border-[var(--color-primary)] hover:text-white"
-          >
-            Login
-          </Link>
-          <Link
-            to="/signup"
-            className="rounded-lg bg-[var(--color-primary)] px-4 py-2 text-sm font-semibold text-white transition hover:brightness-110"
-          >
-            Signup
-          </Link>
+          {isLoggedIn ? (
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="inline-flex items-center gap-2 rounded-lg border border-[var(--color-border)] px-4 py-2 text-sm font-medium text-gray-100 transition hover:border-[var(--color-primary)] hover:text-white"
+            >
+              <FiLogOut className="h-4 w-4" />
+              Logout
+            </button>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                className="rounded-lg border border-[var(--color-border)] px-4 py-2 text-sm font-medium text-gray-100 transition hover:border-[var(--color-primary)] hover:text-white"
+              >
+                Login
+              </Link>
+              <Link
+                to="/signup"
+                className="rounded-lg bg-[var(--color-primary)] px-4 py-2 text-sm font-semibold text-white transition hover:brightness-110"
+              >
+                Sign Up
+              </Link>
+            </>
+          )}
         </div>
 
         <button
@@ -78,20 +118,32 @@ function Navbar() {
               </NavLink>
             ))}
             <div className="mt-2 flex gap-2">
-              <Link
-                to="/login"
-                className="flex-1 rounded-lg border border-[var(--color-border)] px-4 py-2 text-center text-sm font-medium text-gray-100"
-                onClick={() => setIsOpen(false)}
-              >
-                Login
-              </Link>
-              <Link
-                to="/signup"
-                className="flex-1 rounded-lg bg-[var(--color-primary)] px-4 py-2 text-center text-sm font-semibold text-white"
-                onClick={() => setIsOpen(false)}
-              >
-                Signup
-              </Link>
+              {isLoggedIn ? (
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="flex-1 rounded-lg border border-[var(--color-border)] px-4 py-2 text-center text-sm font-medium text-gray-100"
+                >
+                  Logout
+                </button>
+              ) : (
+                <>
+                  <Link
+                    to="/login"
+                    className="flex-1 rounded-lg border border-[var(--color-border)] px-4 py-2 text-center text-sm font-medium text-gray-100"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    to="/signup"
+                    className="flex-1 rounded-lg bg-[var(--color-primary)] px-4 py-2 text-center text-sm font-semibold text-white"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Sign Up
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>
