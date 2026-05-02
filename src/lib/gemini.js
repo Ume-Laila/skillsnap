@@ -5,16 +5,17 @@ async function analyzeJob(jobDescription) {
     throw new Error('Job description is required for analysis.')
   }
 
-  const apiKey = import.meta.env.VITE_GEMINI_API_KEY
+  const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY
+
 
   if (!apiKey) {
-    throw new Error('Gemini API key is missing. Please set VITE_GEMINI_API_KEY in .env.')
+    throw new Error('OpenRouter API key is missing. Please set VITE_OPENROUTER_API_KEY in .env.')
   }
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`
+  const url = 'https://openrouter.ai/api/v1/chat/completions'
 
-  const prompt = `You are SkillSnap AI. Analyze this job description and return ONLY a 
-valid JSON object with NO markdown, no backticks, no explanation. 
+  const userPrompt = `Analyze this job description and return ONLY a valid JSON object with NO markdown, no backticks, no explanation.
+
 The JSON must have exactly this structure:
 {
   jobTitle: string,
@@ -35,41 +36,70 @@ The JSON must have exactly this structure:
   difficulty: 'entry'|'mid'|'senior'
 }
 Generate a realistic 30-day roadmap covering the gap skills.
-For resources use only real free URLs from: youtube.com, freecodecamp.org, 
-developer.mozilla.org, docs.python.org, reactjs.org, tailwindcss.com, 
-w3schools.com, javascript.info
+Resources must be real free URLs from: youtube.com, freecodecamp.org, developer.mozilla.org, reactjs.org, tailwindcss.com, javascript.info
 
 Job Description:
 ${jobDescription}`
 
   try {
-    const response = await axios.post(url, {
-      contents: [
-        {
-          role: 'user',
-          parts: [{ text: prompt }],
+    const response = await axios.post(
+      url,
+      {
+model: 'openai/gpt-oss-120b:free',
+        messages: [
+          {
+            role: 'system',
+            content:
+              'You are SkillSnap AI. You must return ONLY a valid JSON object with NO markdown, no backticks, no explanation whatsoever.',
+          },
+          {
+            role: 'user',
+            content: userPrompt,
+          },
+        ],
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          'Content-Type': 'application/json',
+          'HTTP-Referer': 'http://localhost:5173',
+          'X-Title': 'SkillSnap',
         },
-      ],
-    })
+      },
+    )
 
-    const rawText =
-      response?.data?.candidates?.[0]?.content?.parts?.find((part) => typeof part.text === 'string')?.text || ''
+    const content = response?.data?.choices?.[0]?.message?.content
 
-    if (!rawText) {
-      throw new Error('Gemini returned an empty response.')
+    if (!content || typeof content !== 'string') {
+      throw new Error('OpenRouter returned an empty response.')
     }
 
     try {
-      return JSON.parse(rawText)
+  // Try direct parse first
+  return JSON.parse(content)
+} catch {
+  try {
+    // Strip markdown backticks and retry
+    const cleaned = content
+      .replace(/```json/gi, '')
+      .replace(/```/gi, '')
+      .trim()
+    return JSON.parse(cleaned)
+  } catch {
+    try {
+      // Extract JSON object between first { and last }
+      const start = content.indexOf('{')
+      const end = content.lastIndexOf('}')
+      if (start !== -1 && end !== -1) {
+        return JSON.parse(content.slice(start, end + 1))
+      }
+      throw new Error('No JSON object found in response.')
     } catch {
-      const cleaned = rawText.replace(/```json|```/gi, '').trim()
-      return JSON.parse(cleaned)
+      throw new Error('Failed to parse AI response as JSON. Please try again.')
     }
+  }
+}
   } catch (error) {
-    if (error instanceof SyntaxError) {
-      throw new Error('Failed to parse Gemini response as JSON.')
-    }
-
     const apiMessage = error?.response?.data?.error?.message
     throw new Error(`Job analysis failed: ${apiMessage || error?.message || 'Unknown error'}`)
   }
