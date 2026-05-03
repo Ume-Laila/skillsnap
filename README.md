@@ -13,7 +13,7 @@
 
 ## 🚀 Live Demo
 
-**[https://skillsnap.vercel.app](https://skillsnap.vercel.app)**
+**[https://skillsnap.vercel.app]https://skillsnap-zwsd.vercel.app)**
 
 ---
 
