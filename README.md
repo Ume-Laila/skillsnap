@@ -1,3 +1,4 @@
+<img width="944" height="439" alt="hero section" src="https://github.com/user-attachments/assets/c8a8882a-987a-41c7-ba96-f4f40d3663db" />
 ﻿# ⚡ SkillSnap — Know Your Gap. Fix It in 30 Days.
 
 > Free AI-powered tool that analyzes job descriptions, finds your skill gaps, 
@@ -9,7 +10,7 @@
 ![Appwrite](https://img.shields.io/badge/Appwrite-Cloud-FD366E?style=flat&logo=appwrite)
 ![OpenRouter](https://img.shields.io/badge/OpenRouter-AI-00A67E?style=flat)
 
-## 🚀 Live Demo
+## 🚀 Live ![Uploading hero section.png…]()
 **[skillsnap.vercel.app](https://skillsnap.vercel.app)** ← update after deploy
 
 ## ✨ What It Does
