@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+﻿import { useEffect, useMemo, useState } from 'react'
 import { FiLogOut, FiTrash2 } from 'react-icons/fi'
 import { Link, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
@@ -16,7 +16,6 @@ function DashboardPage() {
       try {
         const currentUser = await getCurrentUser()
         setUser(currentUser)
-
         const data = await getUserRoadmaps(currentUser.$id)
         setRoadmaps(data?.documents || [])
       } catch {
@@ -25,7 +24,6 @@ function DashboardPage() {
         setLoading(false)
       }
     }
-
     init()
   }, [navigate])
 
@@ -48,7 +46,6 @@ function DashboardPage() {
 
       return {
         ...doc,
-        parsed,
         uniqueSkills,
         completedDays,
         totalDays: roadmapDays.length || 30,
@@ -57,9 +54,7 @@ function DashboardPage() {
   }, [roadmaps])
 
   const handleDelete = async (id) => {
-    const confirmed = window.confirm('Delete this roadmap permanently?')
-    if (!confirmed) return
-
+    if (!window.confirm('Delete this roadmap permanently?')) return
     try {
       await deleteRoadmap(id)
       setRoadmaps((prev) => prev.filter((doc) => doc.$id !== id))
@@ -80,12 +75,10 @@ function DashboardPage() {
   }
 
   return (
-    <main className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+    <main className="page-enter mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
       <div className="mb-8 flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-white">
-            Welcome back, {user?.name || 'Learner'} ??
-          </h1>
+          <h1 className="text-2xl font-bold text-white sm:text-3xl">Welcome back, {user?.name || 'Learner'} 👋</h1>
           <p className="mt-2 text-gray-400">Your saved roadmaps</p>
         </div>
 
@@ -114,16 +107,11 @@ function DashboardPage() {
 
       {!loading && parsedRoadmaps.length === 0 ? (
         <div className="rounded-2xl border border-dashed border-[#2a2a3a] bg-[#15151e] p-10 text-center">
-          <div className="mx-auto mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full bg-[#6366f1]/20 text-xl">
-            ??
-          </div>
+          <div className="mx-auto mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full bg-[#6366f1]/20 text-xl">📂</div>
           <h2 className="text-xl font-semibold text-white">No roadmaps saved yet</h2>
           <p className="mt-2 text-gray-400">Start by analyzing a role you want to break into.</p>
-          <Link
-            to="/analyze"
-            className="mt-5 inline-flex rounded-lg bg-[#6366f1] px-4 py-2 text-sm font-semibold text-white transition hover:brightness-110"
-          >
-            Analyze your first job ?
+          <Link to="/analyze" className="mt-5 inline-flex rounded-lg bg-[#6366f1] px-4 py-2 text-sm font-semibold text-white transition hover:brightness-110">
+            Analyze your first job →
           </Link>
         </div>
       ) : null}
@@ -133,7 +121,6 @@ function DashboardPage() {
           {parsedRoadmaps.map((doc) => {
             const percentage = Math.min(100, Math.round((doc.completedDays / doc.totalDays) * 100))
             const savedDate = doc.createdAt || doc.$createdAt
-
             return (
               <article key={doc.$id} className="rounded-xl border border-[#2a2a3a] bg-[#1a1a24] p-5">
                 <h3 className="line-clamp-2 text-lg font-semibold text-white">{doc.title || doc.jobTitle || 'Untitled roadmap'}</h3>
@@ -143,15 +130,13 @@ function DashboardPage() {
                 <p className="mt-3 text-sm text-gray-300">{doc.uniqueSkills} skills in roadmap</p>
 
                 <div className="mt-4">
-                  <p className="mb-2 text-xs text-gray-400">
-                    {doc.completedDays} of {doc.totalDays} days completed
-                  </p>
+                  <p className="mb-2 text-xs text-gray-400">{doc.completedDays} of {doc.totalDays} days completed</p>
                   <div className="h-2 w-full rounded-full bg-[#111827]">
                     <div className="h-2 rounded-full bg-[#6366f1]" style={{ width: `${percentage}%` }} />
                   </div>
                 </div>
 
-                <div className="mt-5 flex gap-2">
+                <div className="mt-5 flex flex-col gap-2 sm:flex-row">
                   <button
                     type="button"
                     onClick={() => navigate(`/roadmap/${doc.$id}`)}

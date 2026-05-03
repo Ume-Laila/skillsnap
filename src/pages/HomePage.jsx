@@ -26,7 +26,7 @@ function HomePage() {
   }
 
   return (
-    <div className="relative overflow-hidden bg-[#0f0f13] text-white">
+    <div className="page-enter relative overflow-hidden bg-[#0f0f13] text-white">
       <style>{`
         @keyframes blobFloatA {
           0%, 100% { transform: translate(0, 0) scale(1); }
@@ -39,35 +39,35 @@ function HomePage() {
         }
       `}</style>
 
-      <section className="relative flex min-h-screen items-center justify-center px-6 py-24 sm:px-10">
+      <section className="relative flex min-h-screen items-center justify-center px-4 py-20 sm:px-8 sm:py-24">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute left-[-12rem] top-[-8rem] h-[28rem] w-[28rem] rounded-full bg-[#6366f1]/15 blur-3xl [animation:blobFloatA_16s_ease-in-out_infinite]" />
           <div className="absolute bottom-[-10rem] right-[-10rem] h-[30rem] w-[30rem] rounded-full bg-[#f59e0b]/15 blur-3xl [animation:blobFloatB_18s_ease-in-out_infinite]" />
         </div>
 
         <div className="relative z-10 mx-auto max-w-4xl text-center">
-          <span className="inline-flex items-center gap-2 rounded-full border border-[#6366f1]/70 bg-[#6366f1]/10 px-4 py-2 text-sm font-medium text-[#818cf8]">
+          <span className="inline-flex items-center gap-2 rounded-full border border-[#6366f1]/70 bg-[#6366f1]/10 px-4 py-2 text-xs font-medium text-[#818cf8] sm:text-sm">
             <span>&#9889;</span>
             Free AI-Powered Career Tool
           </span>
 
-          <h1 className="mt-8 text-5xl font-extrabold tracking-tight text-white sm:text-6xl lg:text-7xl">
+          <h1 className="mt-7 text-4xl font-extrabold tracking-tight text-white sm:mt-8 sm:text-6xl lg:text-7xl">
             Paste a Job. Know Your Gap.
             <span className="mt-2 block bg-gradient-to-r from-[#818cf8] via-[#6366f1] to-[#4f46e5] bg-clip-text text-transparent">
               Fix It in 30 Days.
             </span>
           </h1>
 
-          <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-gray-300 sm:text-lg">
+          <p className="mx-auto mt-5 max-w-3xl text-sm leading-relaxed text-gray-300 sm:mt-6 sm:text-lg">
             SkillSnap analyzes any job description, finds your skill gaps, and builds you a personalized free
             learning roadmap - instantly.
           </p>
 
-          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:mt-10 sm:flex-row sm:gap-4">
             <button
               type="button"
               onClick={goToAnalyze}
-              className="inline-flex items-center gap-2 rounded-xl bg-[#6366f1] px-8 py-4 text-base font-semibold text-white shadow-lg shadow-[#6366f1]/30 transition hover:brightness-110"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#6366f1] px-8 py-4 text-base font-semibold text-white shadow-lg shadow-[#6366f1]/30 transition hover:brightness-110 sm:w-auto"
             >
               Analyze a Job
               <FiArrowRight className="h-4 w-4" />
@@ -75,7 +75,7 @@ function HomePage() {
             <button
               type="button"
               onClick={scrollToExample}
-              className="inline-flex items-center rounded-xl border border-[#2a2a3a] bg-[#15151e] px-8 py-4 text-base font-semibold text-gray-100 transition hover:border-[#6366f1]/70 hover:text-white"
+              className="inline-flex w-full items-center justify-center rounded-xl border border-[#2a2a3a] bg-[#15151e] px-8 py-4 text-base font-semibold text-gray-100 transition hover:border-[#6366f1]/70 hover:text-white sm:w-auto"
             >
               See Example
             </button>
@@ -85,10 +85,10 @@ function HomePage() {
         </div>
       </section>
 
-      <section ref={howItWorksRef} className="mx-auto max-w-6xl px-6 py-20 sm:px-10">
+      <section ref={howItWorksRef} className="mx-auto max-w-6xl px-4 py-16 sm:px-8 sm:py-20">
         <div className="mb-10 text-center">
-          <h2 className="text-3xl font-bold text-white sm:text-4xl">How It Works</h2>
-          <p className="mt-3 text-gray-400">Three simple steps from job post to clear learning plan.</p>
+          <h2 className="text-2xl font-bold text-white sm:text-4xl">How It Works</h2>
+          <p className="mt-3 text-sm text-gray-400 sm:text-base">Three simple steps from job post to clear learning plan.</p>
         </div>
 
         <div className="grid gap-6 md:grid-cols-3">
@@ -125,7 +125,7 @@ function HomePage() {
                 <div className="mt-5 inline-flex rounded-xl bg-[#6366f1]/15 p-3 text-[#818cf8]">
                   <Icon className="h-5 w-5" />
                 </div>
-                <h3 className="mt-5 text-xl font-semibold text-white">{item.title}</h3>
+                <h3 className="mt-5 text-lg font-semibold text-white sm:text-xl">{item.title}</h3>
                 <p className="mt-3 text-sm leading-6 text-gray-400">{item.description}</p>
               </article>
             )
@@ -133,9 +133,9 @@ function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-6 py-8 pb-20 sm:px-10">
+      <section className="mx-auto max-w-6xl px-4 py-6 pb-16 sm:px-8 sm:py-8 sm:pb-20">
         <div className="mb-10 text-center">
-          <h2 className="text-3xl font-bold text-white sm:text-4xl">Features That Move You Forward</h2>
+          <h2 className="text-2xl font-bold text-white sm:text-4xl">Features That Move You Forward</h2>
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2">
@@ -168,7 +168,7 @@ function HomePage() {
                 <span className="inline-flex rounded-xl bg-gradient-to-br from-[#6366f1] to-[#f59e0b] p-3 text-white">
                   <Icon className="h-5 w-5" />
                 </span>
-                <h3 className="mt-5 text-xl font-semibold text-white">{feature.title}</h3>
+                <h3 className="mt-5 text-lg font-semibold text-white sm:text-xl">{feature.title}</h3>
                 <p className="mt-3 text-sm leading-6 text-gray-400">{feature.description}</p>
               </article>
             )
@@ -176,13 +176,13 @@ function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-6xl px-6 pb-24 sm:px-10">
-        <div className="rounded-3xl border border-[#6366f1]/30 bg-gradient-to-r from-[#312e81] via-[#3730a3] to-[#1e1b4b] px-8 py-14 text-center shadow-xl shadow-[#312e81]/30 sm:px-12">
-          <h2 className="text-3xl font-bold text-white sm:text-4xl">Ready to close your skill gaps?</h2>
+      <section className="mx-auto w-full max-w-6xl px-4 pb-20 sm:px-8 sm:pb-24">
+        <div className="rounded-3xl border border-[#6366f1]/30 bg-gradient-to-r from-[#312e81] via-[#3730a3] to-[#1e1b4b] px-6 py-12 text-center shadow-xl shadow-[#312e81]/30 sm:px-12 sm:py-14">
+          <h2 className="text-2xl font-bold text-white sm:text-4xl">Ready to close your skill gaps?</h2>
           <button
             type="button"
             onClick={goToAnalyze}
-            className="mt-8 inline-flex items-center gap-2 rounded-xl bg-white px-7 py-4 text-base font-semibold text-[#1f2340] transition hover:brightness-95"
+            className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-white px-7 py-4 text-base font-semibold text-[#1f2340] transition hover:brightness-95 sm:w-auto"
           >
             Analyze Your First Job Free
             <FiArrowRight className="h-4 w-4" />

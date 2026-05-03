@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+ï»¿import { useEffect, useState } from 'react'
 import { FiLoader } from 'react-icons/fi'
 import { Link, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
@@ -37,7 +37,7 @@ function LoginPage() {
   }
 
   return (
-    <div className="grid min-h-[calc(100vh-64px)] bg-[#0f0f13] lg:grid-cols-2">
+    <div className="page-enter grid min-h-[calc(100vh-64px)] bg-[#0f0f13] lg:grid-cols-2">
       <section className="relative hidden overflow-hidden lg:flex lg:items-center lg:justify-center">
         <style>{`
           @keyframes authBlobA {
@@ -64,8 +64,8 @@ function LoginPage() {
         </div>
       </section>
 
-      <section className="flex items-center justify-center px-5 py-12 sm:px-8">
-        <div className="w-full max-w-md rounded-2xl border border-[#2a2a3a] bg-[#1a1a24] p-7 shadow-2xl shadow-black/20">
+      <section className="flex items-center justify-center px-4 py-10 sm:px-8 sm:py-12">
+        <div className="w-full max-w-md rounded-2xl border border-[#2a2a3a] bg-[#1a1a24] p-6 shadow-2xl shadow-black/20 sm:p-7">
           <h2 className="text-2xl font-bold text-white">Welcome Back</h2>
           <p className="mt-2 text-sm text-gray-400">Login to continue your roadmap journey.</p>
 
@@ -94,7 +94,7 @@ function LoginPage() {
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
                 className="w-full rounded-lg border border-[#2a2a3a] bg-[#11131a] px-3 py-2.5 text-sm text-gray-100 outline-none placeholder:text-gray-500 focus:border-[#6366f1] focus:ring-2 focus:ring-[#6366f1]/40"
-                placeholder="••••••••"
+                placeholder="********"
               />
             </div>
 
